@@ -2,42 +2,56 @@ from datetime import datetime
 import random
 
 def goroda():
-    letter = 'а'
-    first = ' '
-    second = ' '
+
+    """Включает игру города"""
+    
+    letter = 'А'
+    first = ''
+    second = ''
     used_words = []
 
     print('Если захотите выйти, введите СТОП')
 
-    while first != 'СТОП' or second != 'СТОП':
-        while True:
+    while True:
+        while first != letter or first != 'СТОП':
             first = input(f'Введите слово на букву {letter}, первый игрок: ')
-            if first in used_words:
+            if first == 'СТОП':
+                return 0
+            elif first in used_words:
                 print('Было')
             elif len(first) >= 2 and first[0] == letter:
                 used_words.append(first)
                 break
         if first[-1] == 'ь':
-            letter = first[-2]
+            letter = first[-2].capitalizze()
         else:
-            letter = first[-1]
+            letter = first[-1].capitalize()
         print('Хорошо')
 
         while True:
             second = input(f'Введите слово на букву {letter}, второй игрок: ')
-            if second in used_words:
+            if second == 'СТОП':
+                return 0
+            elif second in used_words:
                 print('Было')
             elif len(second) >= 2 and second[0] == letter:
                 used_words.append(second)
                 break
         if first[-1] == 'ь':
-            letter = second[-2]
+            letter = second[-2].capitalize()
         else:
-            letter = second[-1]
+            letter = second[-1].capitalize()
         print('Хорошо')
 
 
 def reakcia_test():
+
+    """
+
+    Запускает тест на реакцию, где вы должны быстро ввести цифру
+
+    """
+    
     answer = ''
     times = []
     number = random.randint(0, 9)
@@ -59,6 +73,13 @@ def reakcia_test():
     print(f'Среднее время ответа: {middle_time} секунд')
 
 def random_number_game():
+
+    """
+
+    Запускает игру, где вы должны угадать число загаданное
+
+    """
+    
     try:
         d_l = input('Выберите уровень сложности (1 - легкий, 2 - нормальный, 3 - СЛОЖНЫЙ): ')
         dls = ['1', '2', '3']
@@ -99,3 +120,65 @@ def random_number_game():
         else:
             print('Ты угадал!')
 
+def quickly_calculate():
+
+    """
+
+    Запускает игру, где вы должны быстро посчитать пример
+    
+    """
+    
+    answer = ''
+    args = ['+', '-']
+    times = []
+    first, to = 0, 9
+
+    for i in range(5):
+        arg = random.choice(args)
+        if arg == '+':
+            n1 = random.randint(first, to)
+            n2 = random.randint(first, to)
+
+            right_answer = n1 + n2
+
+            start_time = datetime.now()
+            start_time = start_time.minute * 60 + start_time.second
+            
+            while answer != right_answer:
+                try:
+                    answer = int(input(f'{n1} + {n2} = '))
+                except:
+                    ValueError
+                if answer == right_answer:
+                    finish_time = datetime.now()
+                    finish_time = finish_time.minute * 60 + finish_time.second
+                    answer_time = finish_time - start_time
+                    times.append(answer_time)
+                    print('Правильно!')
+                    break
+        
+        elif arg == '-':
+            n1 = random.randint(first, to)
+            n2 = random.randint(first, to)
+
+            right_answer = n1 - n2
+            
+            start_time = datetime.now()
+            start_time = start_time.minute * 60 + start_time.second
+
+            while answer !=  right_answer:
+                try:
+                    answer = int(input(f'{n1} - {n2} = '))
+                except:
+                    ValueError
+                    print('ВВЕДИТЕ ЦИФРЫ!')
+                if answer == right_answer:
+                    finish_time = datetime.now()
+                    finish_time = finish_time.minute * 60 + finish_time.second
+                    answer_time = finish_time - start_time
+                    times.append(answer_time)
+                    print('Правильно!')
+                    break
+
+    middle_time = sum(times) / len(times)
+    print(f'Среднее время ответа: {middle_time} секунд')
