@@ -1,10 +1,10 @@
-import main, currency, fileopen, help, url_search, games
+import main, currency, fileopen, help, url_search, games, time_now
 
 main.registration()
 help.help()
 
 while True:
-    task = input('Ввод: ').capitalize()
+    task = input('Ввод: ')
     if task == 'Игра угадай число':
         games.random_number_game()
     elif task == 'Запиши в блокнот':
@@ -19,3 +19,9 @@ while True:
         url_search.search_with_url()
     elif task == 'Тест на реакцию':
         games.reakcia_test()
+    elif task == 'Игра быстро посчитай':
+        games.quickly_calculate()
+    elif task == 'Время':
+        time_now.time_now()
+    elif task == 'Таймер':
+        time_now.timer()
